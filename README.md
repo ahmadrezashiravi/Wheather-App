@@ -1,7 +1,7 @@
-Weather App
+### Weather App
 A weather forecasting app that fetches real-time weather data using the Meteomatics API. Users can search for weather information by entering a city name, and the app will display the weather forecast with temperature and humidity data, as well as a visual chart representation.
 
-Table of Contents
+## Table of Contents
 Introduction
 Features
 Technologies Used
@@ -10,12 +10,12 @@ Environment Variables
 Usage
 File Structure
 License
-Introduction
+## Introduction
 The Weather App is a simple web application built with Next.js (React framework) that allows users to search for weather data by city. Upon entering a city name, the app fetches weather information such as temperature and humidity, and displays the data in both textual and graphical formats (charts).
 
 This app utilizes the Meteomatics API to fetch the weather forecast and OpenCage Geocoding API to convert city names into latitude and longitude coordinates for accurate weather data retrieval.
 
-Features
+## Features
 City Search: Users can input a city name to fetch the weather forecast.
 Weather Data Display: The app shows the temperature and humidity for the requested date.
 Chart Visualization: Weather data is visually represented using charts.
@@ -30,6 +30,15 @@ Chart.js: A popular library to create interactive charts.
 OpenCage Geocoding API: Used for converting city names to geographic coordinates (latitude and longitude).
 Meteomatics API: Provides weather data such as temperature and humidity based on geographic coordinates.
 Tailwind CSS: A utility-first CSS framework for styling the application.
+## How to Run
+Follow these steps to run the project locally:
+
+Clone the repository:
+```bash
+
+git clone https://github.com/ahmadrezashiravi/Wheather-App.git
+cd Wheather-App
+```
 
 
 ```bash
