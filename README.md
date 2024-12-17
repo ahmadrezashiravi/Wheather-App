@@ -1,8 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Weather App
+A weather forecasting app that fetches real-time weather data using the Meteomatics API. Users can search for weather information by entering a city name, and the app will display the weather forecast with temperature and humidity data, as well as a visual chart representation.
 
-## Getting Started
+Table of Contents
+Introduction
+Features
+Technologies Used
+How to Run
+Environment Variables
+Usage
+File Structure
+License
+Introduction
+The Weather App is a simple web application built with Next.js (React framework) that allows users to search for weather data by city. Upon entering a city name, the app fetches weather information such as temperature and humidity, and displays the data in both textual and graphical formats (charts).
 
-First, run the development server:
+This app utilizes the Meteomatics API to fetch the weather forecast and OpenCage Geocoding API to convert city names into latitude and longitude coordinates for accurate weather data retrieval.
+
+Features
+City Search: Users can input a city name to fetch the weather forecast.
+Weather Data Display: The app shows the temperature and humidity for the requested date.
+Chart Visualization: Weather data is visually represented using charts.
+Error Handling: In case of an invalid city or failed API requests, appropriate error messages are displayed.
+Technologies Used
+This project uses the following technologies and libraries:
+
+Next.js: A React framework for building server-side rendered applications.
+React: A JavaScript library for building user interfaces.
+Axios: Promise-based HTTP client for the browser and Node.js, used for making API requests.
+Chart.js: A popular library to create interactive charts.
+OpenCage Geocoding API: Used for converting city names to geographic coordinates (latitude and longitude).
+Meteomatics API: Provides weather data such as temperature and humidity based on geographic coordinates.
+Tailwind CSS: A utility-first CSS framework for styling the application.
+
 
 ```bash
 npm run dev
