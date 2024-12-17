@@ -1,101 +1,93 @@
-import Image from "next/image";
+"use client";
+import axios from 'axios';
+import { useState } from "react";
+import { getWeather } from "@/app/utils/weatherApi"; // Import the weather fetching utility
+import WeatherCard from "@/app/components/WeatherCard"; // Import a component to display the weather details
+import getCoordinates from './utils/GetCoordinates'; // Function to get coordinates for the city
 
-export default function Home() {
+// Define the structure of weather data received from the API
+interface WeatherData {
+  date: string;
+  temp: number;
+  humidity: number;
+}
+
+const HomePage = () => {
+  // State to manage city input from the user (not used directly with new API)
+  const [city, setCity] = useState<string>("Burnaby");
+
+  // State to store fetched weather data
+  const [weatherData, setWeatherData] = useState<WeatherData[] | null>(null);
+
+  // State to handle error messages
+  const [error, setError] = useState<string | null>(null);
+
+  // Function to fetch weather data based on coordinates
+  const handleSearch = async () => {
+    try {
+      // Step 1: Get coordinates based on the city name
+      const coordinates = await getCoordinates(city);
+      console.log(coordinates); // Log coordinates for debugging
+
+      // Step 2: Fetch weather data from API using coordinates
+      const response = await getWeather(coordinates.latitude, coordinates.longitude, "2024-12-16");
+
+      // Step 3: Extract temperature and humidity data from response
+      const tempData = response.data.find((item: any) => item.parameter === "t_2m:C");
+      const humidityData = response.data.find((item: any) => item.parameter === "relative_humidity_2m:p");
+
+      // Step 4: Combine temperature and humidity data by date
+      const combinedData: WeatherData[] = tempData.coordinates[0].dates.map((tempEntry: any, index: number) => ({
+        date: tempEntry.date,
+        temp: tempEntry.value,
+        humidity: humidityData.coordinates[0].dates[index]?.value || 0,
+      }));
+
+      // Step 5: Update the state with the combined weather data
+      setWeatherData(combinedData);
+      setError(null); // Clear any previous error message
+    } catch (error) {
+      console.error(error);
+      setError("Error fetching weather data");
+      setWeatherData(null); // Clear weather data if an error occurs
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center py-8">
+      <h1 className="text-4xl font-bold text-gray-800 mb-4">Weather Forecast</h1>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Input field for city name and search button */}
+      <div className="flex mb-4">
+        <input
+          type="text"
+          value={city}
+          onChange={(e) => setCity(e.target.value)} // Update city state on input change
+          placeholder="Enter city"
+          className="p-2 border border-gray-300 rounded-l-md text-gray-800"
+        />
+        <button
+          onClick={handleSearch} // Trigger search function on click
+          className="p-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600"
+        >
+          Search
+        </button>
+      </div>
+
+      {/* Display an error message if an error occurs */}
+      {error && <p className="text-red-500">{error}</p>}
+
+      {/* Show weather data if available */}
+      {weatherData ? (
+        <div className="w-full max-w-4xl">
+          {/* Pass all weather data to WeatherCard */}
+          <WeatherCard weatherData={weatherData} />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      ) : (
+        <p>Loading weather data...</p>
+      )}
     </div>
   );
-}
+};
+
+export default HomePage;

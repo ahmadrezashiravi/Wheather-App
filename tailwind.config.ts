@@ -11,8 +11,13 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        customBlue: '#1E40AF',
+      },
+      
+      fontFamily: {
+        custom: ['"Roboto"', 'sans-serif'],
       },
     },
   },
-  plugins: [],
+  plugins: [require("flowbite/plugin")],
 } satisfies Config;
