@@ -42,10 +42,18 @@ cd Wheather-App
 Install dependencies: Run the following command to install all required dependencies:
 ```bash
 npm install
+```
+Set up environment variables: Create a .env file in the root directory and add the following variables:
 
 ```bash
+NEXT_PUBLIC_METEOMATICS_USERNAME=your_username
+NEXT_PUBLIC_METEOMATICS_PASSWORD=your_password
+NEXT_PUBLIC_OPENCAGE_API_KEY=your_opencage_api_key
 
 
+```
+
+Run the development server:
 
 ```bash
 npm run dev
@@ -57,20 +65,53 @@ pnpm dev
 bun dev
 ```
 
+
+## Environment Variables
+This app requires the following environment variables to function properly:
+
+NEXT_PUBLIC_METEOMATICS_USERNAME: Your Meteomatics API username.
+NEXT_PUBLIC_METEOMATICS_PASSWORD: Your Meteomatics API password.
+NEXT_PUBLIC_OPENCAGE_API_KEY: Your OpenCage Geocoding API key.
+You can get these API keys by registering on the following platforms:
+
+Meteomatics API
+OpenCage Geocoding API
+
+## Usage
+Once the app is running, follow these steps to use it:
+
+Enter a city name in the input field (e.g., "Burnaby").
+Click the "Search" button to fetch the weather data.
+The app will display the temperature and humidity for the current day, along with a chart representing the weather data over time.
+If the city name is not found or there is an issue with fetching the data, an error message will be displayed.
+
+## File Structure
+Here's an overview of the file structure of the Weather App:
+```bash
+
+├── components
+│   ├── Chart.tsx            # Component for displaying the weather chart
+│   └── WeatherCard.tsx      # Component for displaying weather data in card format
+├── pages
+│   ├── _app.tsx             # Custom App component for wrapping the entire application
+│   ├── index.tsx            # The main homepage that handles city input and displays weather info
+├── utils
+│   ├── weatherApi.ts        # Utility functions for fetching weather data from the Meteomatics API
+│   └── getCoordinates.ts    # Utility function for converting city names to latitude and longitude
+├── public
+│   └── logo.png             # App logo
+├── styles
+│   └── globals.css          # Global CSS file for styling
+├── .env                     # Environment variables for API keys
+├── package.json             # Project metadata and dependencies
+└── README.md                # Project documentation (this file)
+
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
 ## Deploy on Vercel
 
