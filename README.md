@@ -39,6 +39,12 @@ Clone the repository:
 git clone https://github.com/ahmadrezashiravi/Wheather-App.git
 cd Wheather-App
 ```
+Install dependencies: Run the following command to install all required dependencies:
+```bash
+npm install
+
+```bash
+
 
 
 ```bash
